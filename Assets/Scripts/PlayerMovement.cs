@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float RotateSpeed = 30f;
-    public float TurningForce = 5f;
-    public Vector3 currentVelocity;
-    public Rigidbody Rigidbody;
+    [SerializeField] private float RotateSpeed = 30f;
+    [SerializeField] private float TurningForce = 5f;
+    [SerializeField] private Vector3 currentVelocity;
+    [SerializeField] public Rigidbody Rigidbody;
 
     private void Start()
     {
