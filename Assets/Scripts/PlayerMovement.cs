@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float RotateSpeed = 60f;
     [SerializeField] private float TurningForce = 10f;
+    [SerializeField] private float JumpStrength = 5f;
     [SerializeField] private Vector3 currentVelocity;
     [SerializeField] public Rigidbody Rigidbody;
 
@@ -40,10 +41,16 @@ public class PlayerMovement : MonoBehaviour
         currentVelocity = Rigidbody.velocity;
 
         // Calculate the force based on the rotation
-        Vector3 rotationForce = transform.right * direction * (slowRotate ? TurningForce : FastTurningForce);
+        if (direction != 0)
+        {
+            Vector3 rotationForce = transform.right * direction * (slowRotate ? TurningForce : FastTurningForce);
 
-        // Add the force to the Rigidbody
-        Rigidbody.AddForce(rotationForce);
+            // Add the force to the Rigidbody
+            Rigidbody.AddForce(rotationForce);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Rigidbody.AddForce(Vector3.up * JumpStrength, ForceMode.Impulse);
 
     }
 
