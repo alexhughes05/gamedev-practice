@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float RotateSpeed = 30f;
-    [SerializeField] private float TurningForce = 5f;
+    [SerializeField] private float RotateSpeed = 60f;
+    [SerializeField] private float TurningForce = 10f;
     [SerializeField] private Vector3 currentVelocity;
     [SerializeField] public Rigidbody Rigidbody;
 
@@ -18,11 +18,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool slowRotate = !Input.GetKey(KeyCode.DownArrow);
+        float FastRotateSpeed = RotateSpeed * 2;
         var direction = Input.GetAxisRaw("Horizontal");
         currentVelocity = Rigidbody.velocity;
 
         // Rotate character based on the RotateSpeed variable
-        var rotation = Vector3.up * direction * RotateSpeed * Time.deltaTime;
+        var rotation = Vector3.up * direction * (slowRotate ? RotateSpeed : FastRotateSpeed) * Time.deltaTime;
         RotateCharater(rotation);
 
     }
@@ -30,20 +32,19 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        bool slowRotate = !Input.GetKey(KeyCode.DownArrow);
+        float FastTurningForce = TurningForce * 2;
+
         // Get the current velocity
-        Vector3 currentVelocity = Rigidbody.velocity;
         var direction = Input.GetAxisRaw("Horizontal");
         currentVelocity = Rigidbody.velocity;
 
         // Calculate the force based on the rotation
-        Vector3 rotationForce = transform.right * direction * TurningForce;
+        Vector3 rotationForce = transform.right * direction * (slowRotate ? TurningForce : FastTurningForce);
 
         // Add the force to the Rigidbody
         Rigidbody.AddForce(rotationForce);
 
-        // Limit the maximum velocity if needed
-        float maxVelocity = 10f;
-        Rigidbody.velocity = Vector3.ClampMagnitude(currentVelocity, maxVelocity);
     }
 
 }
