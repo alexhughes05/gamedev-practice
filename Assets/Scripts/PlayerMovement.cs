@@ -17,8 +17,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentVelocity = Rigidbody.velocity;
         var direction = Input.GetAxisRaw("Horizontal");
+
+        // Rotate character based on the RotateSpeed variable
         var rotation = Vector3.up * direction * RotateSpeed * Time.deltaTime;
         RotateCharater(rotation);
 
